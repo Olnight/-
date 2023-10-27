@@ -1,3 +1,72 @@
+function gcd($a, $b)
+{
+    return ($a % $b) ? gcd($b, $a % $b) : abs($b);
+}
+
+function ratToString($rat)
+{
+    return getNumer($rat) . '/' . getDenom($rat);
+}
+
+function makeRational($numer, $denom)
+{
+    if ($denom == 0) {
+        throw new Exception("Знаменатель не может быть равен 0!");
+    }
+    
+    $g = gcd($numer, $denom);
+    $numer /= $g;
+    $denom /= $g;
+    
+    if ($denom < 0) {
+        $numer = -$numer;
+        $denom = -$denom;
+    }
+    
+    return [$numer, $denom];
+}
+
+function getNumer($rat)
+{
+    return $rat[0];
+}
+
+function getDenom($rat)
+{
+    return $rat[1];
+}
+
+function add($rat1, $rat2)
+{
+    $numer = getNumer($rat1) * getDenom($rat2) + getNumer($rat2) * getDenom($rat1);
+    $denom = getDenom($rat1) * getDenom($rat2);
+    return makeRational($numer, $denom);
+}
+
+function sub($rat1, $rat2)
+{
+    $numer = getNumer($rat1) * getDenom($rat2) - getNumer($rat2) * getDenom($rat1);
+    $denom = getDenom($rat1) * getDenom($rat2);
+    return makeRational($numer, $denom);
+}
+
+// Тестирование кода
+$rat1 = makeRational(3, 9);
+print ratToString($rat1)."<br>";
+$rat2 = makeRational(10, 3);
+print ratToString(add($rat1, $rat2))."<br>";
+print ratToString(sub($rat1, $rat2))."<br>";
+$rat3 = makeRational(-4, 16);
+print ratToString($rat3)."<br>";
+$rat4 = makeRational(12, 5);
+print ratToString(add($rat3, $rat4))."<br>";
+print ratToString(sub($rat3, $rat4))."<br>";
+$rat5 = makeRational(3, -9);
+print ratToString($rat5)."<br>";
+
+
+
+
 
 function makeDecartPoint($x, $y) {
     return [
