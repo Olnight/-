@@ -1,4 +1,72 @@
-<?php
+<?php<?php
+
+function make($url) {
+    $parsedUrl = parse_url($url);
+    $queryParams = [];
+    if (isset($parsedUrl['query'])) {
+        parse_str($parsedUrl['query'], $queryParams);
+    }
+    $parsedUrl['query'] = $queryParams;
+    return $parsedUrl;
+}
+
+function setScheme(&$data, $scheme) {
+    $data['scheme'] = $scheme;
+}
+
+function getScheme($data) {
+    return $data['scheme'] ?? null;
+}
+
+function setHost(&$data, $host) {
+    $data['host'] = $host;
+}
+
+function getHost($data) {
+    return $data['host'] ?? null;
+}
+
+function setPath(&$data, $path) {
+    $data['path'] = $path;
+}
+
+function getPath($data) {
+    return $data['path'] ?? null;
+}
+
+function setQueryParam(&$data, $key, $value) {
+    if ($value === null) {
+        unset($data['query'][$key]);
+    } else {
+        $data['query'][$key] = $value;
+    }
+}
+
+function getQueryParam($data, $paramName, $default = null) {
+    return $data['query'][$paramName] ?? $default;
+}
+
+function toString($data) {
+    $url = "{$data['scheme']}://{$data['host']}";
+
+    if (isset($data['path'])) {
+        $url .= $data['path'];
+    }
+
+    if (!empty($data['query'])) {
+        $url .= '?' . http_build_query($data['query']);
+    }
+
+    return $url;
+}
+
+// Ваш код для тестирования:
+// (запустите этот код на вашем сервере для проверки работоспособности функций)
+
+// ... ваш код тестирования
+
+?>
+
 
 // Функции для работы с точками:
 function makeDecartPoint($x, $y)
